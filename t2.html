@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style_t2.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Glaide de Lara Oliveira</title>
+</head>
+
+<body>
+    <main>
+        <aside>
+            <nav>
+                <img class="skate-img" src="skate-img.png" alt="imagem de skate">
+                <h2 class="info">onde me encontrar</h2>
+
+                <a href="https://github.com/glaide"
+                    class="list-group-item list-group-item-action list-group-item-primary">Github</a>
+                <a href="https://www.linkedin.com/in/glaide/"
+                    class="list-group-item list-group-item-action list-group-item-secondary">LinkedIn</a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-info">(em casa)</a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">email:
+                    glo18@inf.ufpr.br</a>
+                <a href="status.html" class="list-group-item list-group-item-action list-group-item-info">status</a>
+                <a href="index.html" class="list-group-item list-group-item-action list-group-item-secondary">inicio</a>
+                <a href="t2.html" class="list-group-item list-group-item-action list-group-item-info">Trabalho
+                    2
+                    de
+                    programação web</a>
+            </nav>
+        </aside>
+        <section>
+
+            <div>
+                <h3>Pessoa</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Restrições</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ano</td>
+                            <td>Integer</td>
+                            <td>obrigatório, valor entre -1000 e 2024</td>
+                        </tr>
+                        <tr>
+                            <td>nome</td>
+                            <td>String</td>
+                            <td>obrigatório, tamanho entre 2 e 500 caracteres</td>
+                        </tr>
+                        <tr>
+                            <td>casa</td>
+                            <td>has_one</td>
+                            <td>Casa obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>resumo</td>
+                            <td>has_one</td>
+                            <td>Resumo obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>amigo</td>
+                            <td>has_and_belongs_to_many</td>
+                            <td>Amigo</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Caso uma pessoa seja excluída, todos os amigos que não tenham relação com outra pessoa devem ser
+                    excluídos, assim como o resumo relacionado à pessoa.</p>
+
+                <h3>Casa</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Restrições</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>endereco</td>
+                            <td>String</td>
+                            <td>obrigatório, tamanho entre 2 e 500, único</td>
+                        </tr>
+                        <tr>
+                            <td>pessoa</td>
+                            <td>has_many</td>
+                            <td>Pessoa</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Caso seja excluída uma casa, todas as pessoas relacionadas a ela devem também ser excluídas.</p>
+
+                <h3>Amigo</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Restrições</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>nome</td>
+                            <td>String</td>
+                            <td>obrigatório, tamanho entre 2 e 500 caracteres, único</td>
+                        </tr>
+                        <tr>
+                            <td>pessoa</td>
+                            <td>has_and_belongs_to_many</td>
+                            <td>Pessoa</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Caso seja excluído um amigo, todas as pessoas que o possuam como único amigo devem ser excluídas.</p>
+
+                <h3>Resumo</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Restrições</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>texto</td>
+                            <td>Text</td>
+                            <td>obrigatório, tamanho entre 2 e 2000 caracteres, único</td>
+                        </tr>
+                        <tr>
+                            <td>pessoa</td>
+                            <td>belongs_to</td>
+                            <td>Pessoa obrigatório, único</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Execução</h2>
+
+                <p>Antes de iniciar o programa de interface, é necessário executar o script <code>criaTudo.sh</code>.
+                    Este
+                    script cria as relações do banco de dados e as preenche, utilizando o <code>populate.rb</code>. Ao
+                    finalizar, ele gera um arquivo chamado Tabelas.sqlite3, que armazena os dados do banco de dados.
+                    Para
+                    interagir com o usuário, execute o programa <code>interface.rb</code>.</p>
+
+                <pre><code>ruby interface.rb</code></pre>
+
+                <p>Os comandos criados são listados a seguir:</p>
+
+                <h2>Comandos</h2>
+
+                <p>Cada comando deve ser executado respeitando o seguinte padrão:</p>
+
+                <p>&lt;comando&gt; &lt;tabela&gt; campo="valor"</p>
+
+                <p>Ex:</p>
+
+                <pre><code>lista pessoas casa_id="1"</code></pre>
+
+                <h3>tabelas</h3>
+
+                <p>É o único comando que não utiliza nem tabela e em campos. Ele lista todas as tabelas presentes no
+                    arquivo
+                    gerado para o SQLite.</p>
+
+                <p>Ex:</p>
+
+                <pre><code>tabelas</code></pre>
+
+                <p>Obs: apesar de imprimir a tabela amigoes_pessoas (que exite para a relação muitos para muitos), esta
+                    não
+                    poderá ser acessada diretamente.</p>
+
+                <h3>lista</h3>
+
+                <p>Lista as entradas da tabela passada como parâmetro. Opcionalmente podem ser passados os campos que a
+                    entrada deve ter para ser listada. Caso sejam passados vários campos, são listadas as entradas que
+                    respeitem todas as condições.</p>
+
+                <p>Ex sem filtro:</p>
+
+                <pre><code>lista pessoas</code></pre>
+
+                <p>Ex com fitros:</p>
+
+                <pre><code>lista pessoas ano="1968" casa_id="2"</code></pre>
+
+                <h3>insere</h3>
+
+                <p>Insere em dada tabela uma nova entrada especificada pelos campos passados. Porém, por conta das
+                    associações das tabelas, existem algumas limitações:</p>
+
+                <p>Como pessoas e resumos possuem uma relação um para um, ambos devem ser inseridos juntos, então também
+                    se
+                    deve adicionar um campo resumo durante a inserção de um pessoa.</p>
+
+                <p>Ex:</p>
+
+                <pre><code>insere pessoas nome="Bruna Garcia" ano="2000" casa_id="3" resumo="eu gosto de programar"</code></pre>
+
+                <p>A associação entre as tabelas "amigos" e "pessoas" é feita ao inserir ou alterar um amigo. Portanto,
+                    é
+                    necessário primeiro inserir uma pessoa antes de inserir seu amigo. Ao inserir um amigo, especifique
+                    os
+                    IDs das pessoas associadas no campo "pessoas", separados por vírgula.</p>
+
+                <p>Ex:</p>
+
+                <pre><code>insere amigos nome="Bruno Souza" pessoas="0,3"</code></pre>
+
+                <p>Faz com que seja inserido o amigo de nome Bruno Souza e associado as pessoas de IDs 0 - 3.</p>
+
+                <p>Então no caso de inserir uma casa, basta colocar seu nome:</p>
+
+                <p>Ex:</p>
+
+                <pre><code>insere casas nome="casa do jovem"</code></pre>
+
+                <p>Caso seja válida a nova entrada, é retornado o seu ID de inserção. Caso contrário, serão apresentados
+                    erros.</p>
+
+                <h3>exclui</h3>
+
+                <p>Remove as entradas da tabela que possuam o valor dos campos passados. Caso sejam passados vários
+                    campos,
+                    são excluídas as entradas que respeitem todas as condições.</p>
+
+                <p>Ex:</p>
+
+                <pre><code>exclui pessoas ano="2000"</code></pre>
+
+                <h3>altera</h3>
+
+                <p>Atualiza os campos passados para serem atualizados de dada tabela. Serão atualizados todos os
+                    registros
+                    da tabela que atendam às condições dos campos passados. Utilize a palavra "para" para separar os
+                    valores
+                    de campo de busca e os novos valores.</p>
+
+                <p>Com isso, o padrão do comando é de:</p>
+
+                <p>&lt;comando&gt; &lt;tabela&gt; campo_busca="valor" <strong>para</strong> campo="novo valor"</p>
+
+                <p>Obs: os valores dos campos de busca não precisam ser necessariamente aqueles a serem atualizados.</p>
+
+                <p>Ex:</p>
+
+                <pre><code>altera pessoas ano="1968" para nome="Bruna Almeida"</code></pre>
+
+                <h3>limpa</h3>
+
+                <p>Este é um comando usado para que possa limpar a tela do terminal. Ele só executa o comando ruby:</p>
+
+                <pre><code>puts `clear`</code></pre>
+
+                <p>Ex:</p>
+
+                <pre><code>limpar</code></pre>
+
+                <h3>sair</h3>
+
+                <p>Encerra a execução do programa.</p>
+
+                <p>Ex:</p>
+
+                <pre><code>sair</code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Feito por Glaide (por isso é tão feio).</p>
+    </footer>
+</body>
+
+</html>
