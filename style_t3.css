@@ -1,0 +1,79 @@
+/* Style the nav element */
+nav {
+    background-color: azure; /* Light blue background color */
+    height: 100%;
+    float: left;
+    padding-top: 16px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+}
+
+/* Style the image */
+.skate-img {
+    height: 250px;
+    width: 250px;
+}
+
+/* Style the heading */
+.info {
+    font-weight: bold; /* Bold font weight */
+    color: pink; /* Pink color */
+}
+
+/* Style the list */
+ul {
+    list-style: none; /* Remove default list style */
+    text-align: justify; /* Justify text */
+    padding-top: 10%; /* Top padding */
+}
+
+/* Style the list items */
+li {
+    padding: 4px; /* Padding */
+    font-size: 15px; /* Font size */
+    font-family: 'Fira Sans', sans-serif; /* Font family */
+}
+
+/* Style the footer paragraph */
+footer p {
+    float: right; /* Float to the right */
+    margin: 0 20px 0; /* Margin */
+}
+
+/* Ensure proper rendering of HTML5 elements */
+html,
+body,
+main {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 100%;
+    position: relative;
+    background-color: azure; /* Light pink background color */
+}
+
+/* Set width of main content */
+.main {
+    width: 70%; /* 70% width */
+}
+
+/* Make image responsive */
+.responsive {
+    width: 50%; /* 50% width */
+    max-width: 400px; /* Maximum width */
+    height: auto; /* Auto height */
+}
+
+/* Style the section */
+section {
+    width: 70%; /* 70% width */
+    height: calc(100% - 40px); /* Calculate height */
+    float: right; /* Float to the right */
+    padding-top: 16px; /* Top padding */
+}
+
+/* Style the h1 element */
+h1 {
+    color: #9f6489; /* Purple color */
+}

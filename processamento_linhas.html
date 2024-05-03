@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="pt_BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/minty/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style_t3.css">
+
+    <title>Processador de Linhas</title>
+
+
+    <script type="text/javascript" src="Canvas.js"></script>
+    <script type="text/javascript" src="Linha.js"></script>
+</head>
+
+<body class="container-fluid">
+    <main class="row" style="height: 100vh;">
+        <aside class="0col-6 col-sm-4 col-lg-3 col-4 text-center bg-dark p-0 m-">
+            <img class="skate-img" src="skate-img.png" alt="imagem de skate">
+            <h2 class="info">onde me encontrar</h2>
+            <a href="https://github.com/glaide"
+                class="list-group-item list-group-item-action list-group-item-primary">Github</a>
+            <a href="https://www.linkedin.com/in/glaide/"
+                class="list-group-item list-group-item-action list-group-item-secondary">LinkedIn</a>
+            <a href="#" class="list-group-item list-group-item-action list-group-item-info">(em casa)</a>
+            <a href="#" class="list-group-item list-group-item-action list-group-item-primary">email:
+                glo18@inf.ufpr.br</a>
+            <a href="status.html" class="list-group-item list-group-item-action list-group-item-info">status</a>
+            <a href="index.html" class="list-group-item list-group-item-action list-group-item-secondary">inicio</a>
+            <a href="t2.html" class="list-group-item list-group-item-action list-group-item-info">Trabalho 2 de
+                programação web</a>
+            <a href="processamento_linhas.html"
+                class="list-group-item list-group-item-action list-group-item-info">Processamento de linhas</a>
+        </aside>
+        <section class="col" style="margin: auto; height: 100vh; overflow-y: auto;">
+            <h1 style="text-align: center;"> Processador de linhas </h1>
+            <div id="canvasDiv">
+                <canvas id="canvas" width="500" height="500"></canvas> <!-- Conteúdo das retas -->
+            </div>
+            <form style="margin-top: 10px;">
+                <div class="row row-cols-sm-auto g-3 align-items-center justify-content-center">
+                    <span style="padding: 0;">
+                        <button type="button" id="botaoCriar" class="btn btn-primary">Criar polígono</button>
+                        de&nbsp;
+                    </span>
+                    <div class="col" style="padding: 0;">
+                        <label for="sidesInput"></label><select class="form-select" id="sidesInput">
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
+                    <span style="padding: 0;">&nbsp;lados</span>
+                </div>
+                <div class="row row-cols-sm-auto g-3 align-items-center justify-content-center"
+                    style="margin-top: 0px;">
+                    <button type="button" class="btn btn-danger" id="cleanButton">Apagar todas as linhas</button>
+                </div>
+            </form>
+
+            <h2>Objetivo deste trabalho</h2>
+            <p>Alterar formato e posição de retas e dos polígonos criados no canvas do html5. </p>
+            <h2>Caracteristicas</h2>
+            <ul>
+                <li>Ao abrir o link, o usuário pode interagir com a reta. Ao pressionar o mouse sobre um dos cantos,
+                    aquele canto da reta será movido enquanto o outro canto fica fixo. Se o mouse for pressionado no
+                    centro da reta, a reta toda será movida.</li>
+                <li>Ao clicar com o botão direito do mouse, a reta é dividida em duas, com um extremo em cada ponto fixo
+                    e o outro extremo no local do mouse.</li>
+                </li>
+                <li>
+                    O aplicativo deve gerar um polígono com um número de lados entre 3 e 8. As ações descritas acima
+                    devem ser aplicadas a cada segmento de reta. Por exemplo, é possível transformar um triângulo em
+                    quadrado ao pressionar o botão direito em uma das retas do triângulo.
+                </li>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>
+
+<style>
+    #canvasDiv {
+        border: 2px solid #da8ed8;
+        border-radius: 8px;
+        margin: auto;
+        height: 500px;
+        width: 500px;
+        cursor: pointer;
+    }
+</style>
+
+<script type="text/javascript">
+    const COR_SELECAO = '#7cc4ac';
+    const COR_PADRAO = 'black';
+    // configura o padrão das linhas
+    const CANVAS_E = document.getElementById("canvas");
+    const CTX = CANVAS_E.getContext("2d");
+    CTX.lineWidth = 4;
+    CTX.lineCap = "round";
+    CTX.strokeStyle = 'black';
+    //
+    const CANVAS = new Canvas(CANVAS_E, CTX);
+    var acao = 0; // 0 => move ponta[0], 1 => move ponta[1], 2 => move linha toda
+    var coord_inicial, pos_inicial;
+    const linhas_acao = [];
+
+    // cria uma linha
+    CANVAS.criaLinha({ x: 100, y: 100 }, { x: 100, y: 300 });
+    CANVAS.desenha();
+
+
+    // ---------------------------- eventos do canvas ----------------------------
+
+    // remover a ação de abrir o menu do navegador no canvas
+    CANVAS_E.addEventListener("contextmenu", e => e.preventDefault());
+    // captura o movimento do mouse no canvas
+    CANVAS_E.addEventListener("mousemove", function (e) {
+        if (e.buttons > 2) return; // ação não interessa
+        // não possui botão pressionado, então só faz higlight da linha
+        // em baixo do cursor
+        if (e.buttons == 0) {
+            CANVAS.atualizaCores(COR_PADRAO);
+            var linha = CANVAS.obtemLinha(e);
+            if (linha != null) {
+                CANVAS_E.style.cursor = "grab";
+                linha.cor = COR_SELECAO;
+            } else {
+                CANVAS_E.style.cursor = "pointer";
+            }
+            CANVAS.desenha();
+            return;
+        }
+
+        const coord = { x: e.offsetX, y: e.offsetY };
+        // move a primeira ponta da linha para a posição do mouse
+        if (acao == 0) {
+            for (const linha of linhas_acao) {
+                linha.atualizaCoords(coord, linha.coords[1]);
+            }
+        }
+        // move a segunda ponta da linha para a posição do mouse
+        if (acao == 1) {
+            for (const linha of linhas_acao) {
+                linha.atualizaCoords(linha.coords[0], coord);
+            }
+        }
+        // move toda a linha para uma posição relativa à sua inicial
+        if (acao == 2) {
+            for (const linha of linhas_acao) {
+                let coord1 = {
+                    x: (coord.x - coord_inicial.x) + pos_inicial[0].x,
+                    y: (coord.y - coord_inicial.y) + pos_inicial[0].y
+                };
+                let coord2 = {
+                    x: (coord.x - coord_inicial.x) + pos_inicial[1].x,
+                    y: (coord.y - coord_inicial.y) + pos_inicial[1].y
+                };
+                linha.atualizaCoords(coord1, coord2);
+            }
+        }
+
+        CANVAS.desenha();
+    });
+
+    // captura a ação de clique
+    CANVAS_E.addEventListener("mousedown", function (e) {
+        if (e.buttons > 2) return; // ação não interessa
+
+        var linha = CANVAS.obtemLinha(e);
+        linhas_acao.length = 0;
+        if (!linha) return;
+
+        const coord = { x: e.offsetX, y: e.offsetY };
+        linha.cor = COR_SELECAO;
+        // clique esquerdo
+        if (e.buttons == 1) {
+            CANVAS_E.style.cursor = "grabbing";
+            // seleciona a linha a ser movida e qual tipo de acao
+            acao = linha.canto(coord);
+            if (acao == 2) {
+                coord_inicial = coord;
+                pos_inicial = linha.coords;
+            }
+            linhas_acao.push(linha);
+        } else {
+            CANVAS_E.style.cursor = "move";
+            // divide a linha em 2 e "seleciona" ambas para a açõo
+            // de mové-las (até se soltar o clique)
+            nova_linha = CANVAS.divideLinha(coord, linha);
+            nova_linha.cor = COR_SELECAO;
+            acao = 0;
+            linhas_acao.push(linha);
+            linhas_acao.push(nova_linha);
+        }
+    });
+
+    // captura a ação de "soltar" do mouse
+    CANVAS_E.addEventListener("mouseup", function (e) {
+        // redefine tudo para o "padrão"
+        CANVAS_E.style.cursor = "pointer";
+        linhas_acao.length = 0;
+        acao = -1;
+        CANVAS.atualizaCores(COR_PADRAO);
+        CANVAS.desenha();
+    });
+
+
+    // ---------------------------- eventos dos botões ----------------------------
+    // criar polígonos
+    const botaoCriar = document.getElementById("botaoCriar");
+    botaoCriar.addEventListener("click", function () {
+        const sides = parseInt(document.getElementById("sidesInput").selectedOptions[0].value);
+        CANVAS.criarPoligono(sides);
+    });
+
+    // apagar polígonos
+    const cleanButton = document.getElementById("cleanButton");
+    cleanButton.addEventListener("click", function () {
+        CANVAS.limpa();
+    });
+
+</script>
