@@ -8,6 +8,9 @@
     <title>Grade Curricular</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="alunos.js" defer></script>
+    <script type="text/javascript" src="utils.js"></script>
+
+
 </head>
 <body>
     <main>
@@ -30,13 +33,90 @@
             <a href="grade_curricular.html" class="list-group-item list-group-item-action list-group-item-info">Grade Curricular</a>
         </nav>
         <section id="gradeCurricular">
-            <div class="container">
 
-                    <h1>Grade Curricular</h1>
-                    <label for="raInput"></label><input type="text" id="raInput" placeholder="Digite o GRR do aluno">
+
+            <div>
+                <h2>Grade Curricular do Curso - 2011</h2>
+                <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>1o semestre</th>
+                            <th>2o semestre</th>
+                            <th>3o semestre</th>
+                            <th>4o semestre</th>
+                            <th>5o semestre</th>
+                            <th>6o semestre</th>
+                            <th>7o semestre</th>
+                            <th>8o semestre</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>CI068</th>
+                            <th>CI210</th>
+                            <th>CI212</th>
+                            <th>CI215</th>
+                            <th>CI162</th>
+                            <th>CI163</th>
+                            <th>CI221</th>
+                            <th>OPT</th>
+                        </tr>
+                        <tr>
+                            <th>CI055</th>
+                            <th>CI056</th>
+                            <th>CI057</th>
+                            <th>CI062</th>
+                            <th>CI065</th>
+                            <th>CI165</th>
+                            <th>CI211</th>
+                            <th>OPT</th>
+                        </tbody>
+                        <tr>
+                            <th>CM046</th>
+                            <th>CI067</th>
+                            <th>CI064</th>
+                            <th>CE003</th>
+                            <th>CI059</th>
+                            <th>CI209</th>
+                            <th>OPT</th>
+                            <th>OPT</th>
+                        </tr>
+                    <tr>
+<!--                        ["CM045", "CM005", "CI237", "CI058", "CI061", "CI218", "OPT", "OPT"],-->
+                        <th>CM045</th>
+                        <th>CM005</th>
+                        <th>CI237</th>
+                        <th>CI058</th>
+                        <th>CI061</th>
+                        <th>CI218</th>
+                        <th>OPT</th>
+                        <th>OPT</th>
+                    </tr>
+                    <tr>
+<!--                        ["CM201", "CM202", "CI166", "CI164", "SA214", "CI220", "TG I", "TG II"]-->
+                        <th>CM201</th>
+                        <th>CM202</th>
+                        <th>CI166</th>
+                        <th>CI164</th>
+                        <th>SA214</th>
+                        <th>CI220</th>
+                        <th>TG I</th>
+                        <th>TG II</th>
+                    </tr>
+                    </table>
+            </div>
+            <div class="container">
+                <h1>Buscar Grade Curricular </h1>
+                <label for="raInput"></label><input type="text" id="raInput" placeholder="Digite o GRR do aluno">
+                <button>Buscar</button>
+
             </div>
             <!-- A grade curricular será gerada aqui -->
         </section>
     </main>
 </body>
 </html>
+
+
+
